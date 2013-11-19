@@ -29,19 +29,19 @@ public final class R {
         public static final int mars=0x7f02000c;
         public static final int mercury=0x7f02000d;
         public static final int neptune=0x7f02000e;
-        public static final int saturn=0x7f02000f;
-        public static final int soccer=0x7f020010;
-        public static final int sprite=0x7f020011;
-        public static final int uranus=0x7f020012;
-        public static final int venus=0x7f020013;
+        public static final int nutrition=0x7f02000f;
+        public static final int saturn=0x7f020010;
+        public static final int soccer=0x7f020011;
+        public static final int sprite=0x7f020012;
+        public static final int uranus=0x7f020013;
+        public static final int venus=0x7f020014;
     }
     public static final class id {
-        public static final int ItemCardCloseBTN=0x7f07000a;
         public static final int ItemCardName=0x7f070009;
         public static final int ItemCard_Image=0x7f070008;
-        public static final int action_websearch=0x7f07000c;
+        public static final int action_websearch=0x7f07000b;
         public static final int desc=0x7f070006;
-        public static final int dist=0x7f07000b;
+        public static final int dist=0x7f07000a;
         public static final int drawer_layout=0x7f070000;
         public static final int image=0x7f070003;
         public static final int img=0x7f070004;

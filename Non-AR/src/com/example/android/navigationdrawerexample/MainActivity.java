@@ -34,6 +34,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -46,6 +47,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
@@ -106,6 +108,7 @@ public class MainActivity extends Activity {
 	PlanetAdapter aAdpt;
 	
 	ListView lv;
+	boolean nutritionVisible = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -179,22 +182,31 @@ public class MainActivity extends Activity {
 				LayoutInflater inflater = (LayoutInflater) MainActivity.this
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				View layout = inflater.inflate(R.layout.itemcard, null, false);
-				final PopupWindow pw = new PopupWindow(layout, 200, 300, true);
-
-				ImageView itemImage = (ImageView) layout
+				final PopupWindow pw = new PopupWindow(layout, 600, 480, true);
+				
+				//Tapping outside of the popup dismisses the window (next 3 lines)
+				pw.setBackgroundDrawable(new BitmapDrawable());
+				pw.setOutsideTouchable(true);
+				pw.setFocusable(true);
+				
+				final ImageView itemImage = (ImageView) layout
 						.findViewById(R.id.ItemCard_Image);
-				TextView itemName = (TextView) layout
-						.findViewById(R.id.ItemCardName);
-				Button button = (Button) layout
-						.findViewById(R.id.ItemCardCloseBTN);
-				button.setOnClickListener(new View.OnClickListener() {
-
+				final int positionTemp = position; 
+				nutritionVisible = false;
+				itemImage.setClickable(true);
+				itemImage.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						pw.dismiss();
-
+						Food p = (Food) menu.allFood.get((Integer)displayedArray.get(positionTemp));
+						if(!nutritionVisible)itemImage.setImageResource(R.drawable.nutrition);
+						else itemImage.setImageResource(p.getIdImg());
+						nutritionVisible = !nutritionVisible;
 					}
 				});
+				
+				TextView itemName = (TextView) layout
+						.findViewById(R.id.ItemCardName);
+			
 
 				Food p = (Food) menu.allFood.get((Integer)displayedArray.get(position));
 
@@ -317,6 +329,7 @@ public class MainActivity extends Activity {
 		Log.w("Debug", "Drawer Menu Selection: " + position);
 		//displayedArray.clear();
 		aAdpt.updateList(menu.foodCategory[position]);
+		displayedArray = menu.foodCategory[position];
 		mDrawerLayout.closeDrawer(mDrawerList);
 		aAdpt.notifyDataSetChanged();
 		//lv.invalidateViews();

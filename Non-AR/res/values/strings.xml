@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">Navigation Drawer Example</string>
+    <string name="app_name">Auggy</string>
     <string-array name="planets_array">
         <item>Appetizer</item>
         <item>Entree</item>
