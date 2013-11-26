@@ -15,18 +15,24 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+<<<<<<< HEAD
     <item android:id="@+id/chicken"
           android:icon="@drawable/chicken_white"
           android:title="Chicken Filter"
           android:showAsAction="ifRoom" />
     
+=======
+>>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
     <item android:id="@+id/action_websearch"
           android:icon="@drawable/action_search"
           android:title="@string/action_websearch"
           android:showAsAction="ifRoom|withText" />
+<<<<<<< HEAD
     
     <item android:id="@+id/cart"
           android:icon="@drawable/cart"
           android:title="Cart"
           android:showAsAction="ifRoom" />
+=======
+>>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 </menu>

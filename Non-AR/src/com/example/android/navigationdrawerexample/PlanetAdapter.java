@@ -22,7 +22,10 @@ public class PlanetAdapter extends ArrayAdapter {
 		public TextView desc;
 		public TextView price;
 		public ImageView image;
+<<<<<<< HEAD
 		public ImageView icon;
+=======
+>>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 
 	}
 
@@ -47,7 +50,10 @@ public class PlanetAdapter extends ArrayAdapter {
 			viewHolder.desc = (TextView) rowView.findViewById(R.id.desc);
 			viewHolder.image = (ImageView) rowView.findViewById(R.id.img);
 			viewHolder.price = (TextView) rowView.findViewById(R.id.price);
+<<<<<<< HEAD
 			viewHolder.icon = (ImageView) rowView.findViewById(R.id.icon);
+=======
+>>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 
 			rowView.setTag(viewHolder);
 		}
@@ -60,7 +66,10 @@ public class PlanetAdapter extends ArrayAdapter {
 		holder.name.setText(p.getName());
 		holder.desc.setText(" " + p.getDesc());
 		holder.image.setImageResource(p.getIdImg());
+<<<<<<< HEAD
 		holder.icon.setImageResource(p.getTag());
+=======
+>>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 		holder.price.setText(String.valueOf(p.getPrice()));
 		Log.w("Debug", "Passed getView");
 		// tv.setText(p.getName());

@@ -21,6 +21,7 @@
         android:textColor="#F2F3F4"
         android:layout_gravity="center"/>
    
+<<<<<<< HEAD
 	<Button 
         android:id="@+id/addToCart"
         android:layout_width="wrap_content"
@@ -29,4 +30,7 @@
         android:layout_below="@+id/ItemCardName"
         android:text="Add to Cart"
         />
+=======
+
+>>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 </LinearLayout>

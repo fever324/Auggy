@@ -31,6 +31,7 @@
         android:textSize="10dp"
         android:textStyle="italic" />
     
+<<<<<<< HEAD
     <ImageView
         android:id="@+id/icon"
         android:layout_width="15dip"
@@ -42,6 +43,8 @@
         android:layout_toRightOf="@+id/price"
         android:gravity="right" />
     
+=======
+>>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
     <TextView
         android:id="@+id/price"
         android:layout_width="wrap_content"
@@ -54,5 +57,8 @@
         android:gravity="right"
         android:textSize="15dp"
         android:textStyle="bold" />
+<<<<<<< HEAD
    
+=======
+>>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 </RelativeLayout>
