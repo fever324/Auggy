@@ -103,13 +103,10 @@ public class MainActivity extends Activity {
 	private CharSequence mTitle;
 	private String[] mPlanetTitles;
 
-	ResMenu menu = new ResMenu();
+	ResMenu menu = new ResMenu(1);
 	ArrayList displayedArray = menu.foodCategory[0];
 	PlanetAdapter aAdpt;
-<<<<<<< HEAD
 	public static Cart cart;
-=======
->>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 	
 	ListView lv;
 	boolean nutritionVisible = false;
@@ -119,10 +116,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-<<<<<<< HEAD
 		cart = new Cart();
-=======
->>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 		mTitle = mDrawerTitle = getTitle();
 		mPlanetTitles = getResources().getStringArray(R.array.planets_array);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -139,11 +133,7 @@ public class MainActivity extends Activity {
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-<<<<<<< HEAD
 //		getActionBar().setHomeButtonEnabled(true);
-=======
-		getActionBar().setHomeButtonEnabled(true);
->>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
@@ -183,10 +173,6 @@ public class MainActivity extends Activity {
 		// must match
 
 		lv = (ListView) findViewById(R.id.listview);
-<<<<<<< HEAD
-=======
-		Log.w("Debug", "Adapter Initialized");
->>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 		aAdpt = new PlanetAdapter(displayedArray, this, menu);
 		lv.setAdapter(aAdpt);
 
@@ -197,11 +183,7 @@ public class MainActivity extends Activity {
 				LayoutInflater inflater = (LayoutInflater) MainActivity.this
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				View layout = inflater.inflate(R.layout.itemcard, null, false);
-<<<<<<< HEAD
 				final PopupWindow pw = new PopupWindow(layout, 600, 600, true);
-=======
-				final PopupWindow pw = new PopupWindow(layout, 600, 480, true);
->>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 				
 				//Tapping outside of the popup dismisses the window (next 3 lines)
 				pw.setBackgroundDrawable(new BitmapDrawable());
@@ -227,7 +209,6 @@ public class MainActivity extends Activity {
 						.findViewById(R.id.ItemCardName);
 			
 
-<<<<<<< HEAD
 				final Food p = (Food) menu.allFood.get((Integer)displayedArray.get(position));
 
 				itemImage.setImageResource(p.getIdImg());
@@ -244,12 +225,6 @@ public class MainActivity extends Activity {
 						pw.dismiss();
 						}
 				});
-=======
-				Food p = (Food) menu.allFood.get((Integer)displayedArray.get(position));
-
-				itemImage.setImageResource(p.getIdImg());
-				itemName.setText(p.getName());
->>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 				pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
 			}
 		});
@@ -309,11 +284,7 @@ public class MainActivity extends Activity {
 		// If the nav drawer is open, hide action items related to the content
 		// view
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-<<<<<<< HEAD
 		//menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
-=======
-		menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
->>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -326,7 +297,6 @@ public class MainActivity extends Activity {
 		}
 		// Handle action buttons
 		switch (item.getItemId()) {
-<<<<<<< HEAD
 		
 		case R.id.chicken:
 			ArrayList temp = new ArrayList();
@@ -342,8 +312,6 @@ public class MainActivity extends Activity {
 
 			aAdpt.notifyDataSetChanged();
 			return true;
-=======
->>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 		case R.id.action_websearch:
 			// create intent to perform web search for this planet
 			Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
@@ -356,14 +324,11 @@ public class MainActivity extends Activity {
 						Toast.LENGTH_LONG).show();
 			}
 			return true;
-<<<<<<< HEAD
 		case R.id.cart:
 			Intent intentCart = new Intent(this,CartActivity.class);
 			startActivity(intentCart);
 			
 			return true;
-=======
->>>>>>> f6375e4d3aebc9f0aa8a9392292c2b33068eeb9d
 		default:
 			return super.onOptionsItemSelected(item);
 		}
