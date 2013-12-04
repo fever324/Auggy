@@ -104,7 +104,8 @@ public class MainActivity extends Activity {
 	private String[] mPlanetTitles;
 
 	ResMenu menu = new ResMenu();
-	ArrayList displayedArray = menu.foodCategory[0];
+	//ArrayList displayedArray = menu.foodCategory[0];
+	ArrayList displayedArray = new ArrayList();
 	PlanetAdapter aAdpt;
 	public static Cart cart;
 	
@@ -173,7 +174,7 @@ public class MainActivity extends Activity {
 		// must match
 
 		lv = (ListView) findViewById(R.id.listview);
-		aAdpt = new PlanetAdapter(displayedArray, this, menu);
+		aAdpt = new PlanetAdapter(displayedArray, this);
 		lv.setAdapter(aAdpt);
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -361,8 +362,8 @@ public class MainActivity extends Activity {
 		
 		Log.w("Debug", "Drawer Menu Selection: " + position);
 		//displayedArray.clear();
-		aAdpt.updateList(menu.foodCategory[position]);
-		displayedArray = menu.foodCategory[position];
+		//aAdpt.updateList(menu.foodCategory[position]);
+		//displayedArray = menu.foodCategory[position];
 		mDrawerLayout.closeDrawer(mDrawerList);
 		aAdpt.notifyDataSetChanged();
 		//lv.invalidateViews();

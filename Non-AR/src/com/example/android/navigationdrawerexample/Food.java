@@ -1,6 +1,7 @@
 package com.example.android.navigationdrawerexample;
 
 public class Food {
+	private int id;
 	private String name;
 	private String desc;
 	// public String imgURL;
@@ -9,7 +10,8 @@ public class Food {
 	private double price;
 	private int tag;
 
-	public Food(String name, String desc, int idImg, int category, double price) {
+	public Food(int id ,String name, String desc, int idImg, int category, double price) {
+		this.id = id;
 		this.name = name;
 		this.desc = desc;
 		this.idImg = idImg;
@@ -67,6 +69,14 @@ public class Food {
 
 	public void setTag(int tag) {
 		this.tag = tag;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

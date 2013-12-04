@@ -26,11 +26,10 @@ public class PlanetAdapter extends ArrayAdapter {
 
 	}
 
-	public PlanetAdapter(ArrayList planetList, Context ctx, ResMenu menu) {
+	public PlanetAdapter(ArrayList planetList, Context ctx) {
 		super(ctx, R.layout.image_rowlayout, planetList);
 		this.planetList = planetList;
 		this.context = ctx;
-		this.menu = menu;
 	}
 
 	@Override
@@ -51,11 +50,12 @@ public class PlanetAdapter extends ArrayAdapter {
 
 			rowView.setTag(viewHolder);
 		}
-
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		// Now we can fill the layout with the right values
 		Log.w("Debug", "PlanetAdapter Position: " + position);
-		Food p = (Food) menu.allFood.get((Integer) planetList.get(position));
+		Log.w("Debug", "First Food: " + ResMenu.allFood.size());
+		Food p = (Food) ResMenu.allFood.get((Integer) planetList.get(position));
+		
 		Log.w("Debug", "Get Item ID: " + p.getName());
 		holder.name.setText(p.getName());
 		holder.desc.setText(" " + p.getDesc());
@@ -65,7 +65,7 @@ public class PlanetAdapter extends ArrayAdapter {
 		Log.w("Debug", "Passed getView");
 		// tv.setText(p.getName());
 		// distView.setText(" "+p.getDistance());
-
+		
 		return rowView;
 
 	}

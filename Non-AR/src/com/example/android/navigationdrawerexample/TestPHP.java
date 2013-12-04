@@ -36,6 +36,7 @@ public class TestPHP extends Activity {
 	private String jsonResult;
 	private String url = "http://ec2-54-202-51-8.us-west-2.compute.amazonaws.com/Auggy/scripts/phpScripts/newRestItems.php";
 	private ListView listView;
+	private PlanetAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,36 +77,40 @@ public class TestPHP extends Activity {
 	// and turn them into a food item to be added into the food list. This method will also update 
 	// the list view in the activity. 
 	public void ListDrawer() {
-		List<Map<String, String>> foodList = new ArrayList<Map<String, String>>();
 		Log.w("fevea", jsonResult);
 		try {
 			JSONObject jsonResponse = new JSONObject(jsonResult);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("foods");
-
+			
 			for (int i = 0; i < jsonMainNode.length(); i++) {
 				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
-
+				int id = jsonChildNode.optInt("id");
 				String name = jsonChildNode.optString("name");
-				String number = jsonChildNode.optString("price");
-				String outPut = name + "-" + number;
-				foodList.add(createEmployee("employees", outPut));
+				String desc = jsonChildNode.optString("description");
+				Double price = Double.parseDouble(jsonChildNode.optString("price"));
+				Food food = new Food(id,name, desc, R.drawable.crabmeat_pasta,0 ,price);
+				ResMenu.addFood(food);
 			}
+			ResMenu.sortCategory(jsonResponse.optJSONArray("category"));
 		} catch (JSONException e) {
 
 			Log.w("Error", e.toString());
 			Toast.makeText(getApplicationContext(), "Error" + e.toString(),
 					Toast.LENGTH_SHORT).show();
 		}
+		
+		adapter = new PlanetAdapter(ResMenu.foodCategory.get("Entree"), this);
+		listView.setAdapter(adapter);
 
-		SimpleAdapter simpleAdapter = new SimpleAdapter(this, foodList,
-				android.R.layout.simple_list_item_1,
-				new String[] { "employees" }, new int[] { android.R.id.text1 });
-		listView.setAdapter(simpleAdapter);
+		//SimpleAdapter simpleAdapter = new SimpleAdapter(this, foodList,
+		//		android.R.layout.simple_list_item_1,
+		//		new String[] { "employees" }, new int[] { android.R.id.text1 });
+		//listView.setAdapter(simpleAdapter);
 	}
 
-	private HashMap<String, String> createEmployee(String name, String number) {
+/*	private HashMap<String, String> createEmployee(String name, String number) {
 		HashMap<String, String> employeeNameNo = new HashMap<String, String>();
 		employeeNameNo.put(name, number);
 		return employeeNameNo;
-	}
+	}*/
 }
