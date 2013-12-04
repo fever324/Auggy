@@ -1,8 +1,5 @@
 package com.example.android.navigationdrawerexample;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Food {
 	private String name;
 	private String desc;
@@ -10,16 +7,18 @@ public class Food {
 	private int idImg;
 	private int category;
 	private double price;
-	private ArrayList<String> tag;
-	private int likeCount;
+	private int tag;
 
-	public Food(String name, String desc, int idImg, int category, double price, int likeCount) {
+	public Food(String name, String desc, int idImg, int category, double price) {
 		this.name = name;
 		this.desc = desc;
 		this.idImg = idImg;
 		this.category = category;
 		this.price = price;
-		this.likeCount = likeCount;
+		
+		if(name.toLowerCase().contains("chicken")){
+			this.tag = R.drawable.chicken;
+		}
 	}
 
 	public int getCategory() {
@@ -62,20 +61,12 @@ public class Food {
 		this.idImg = idImg;
 	}
 
-	public void addTag(String newTag){
-		this.tag.add(newTag);
-	}
-	
-	public ArrayList<String> getTag(){
-		return this.tag;
+	public int getTag() {
+		return tag;
 	}
 
-	public int getLikeCount() {
-		return likeCount;
-	}
-
-	public void setLikeCount(int likeCount) {
-		this.likeCount = likeCount;
+	public void setTag(int tag) {
+		this.tag = tag;
 	}
 	
 	

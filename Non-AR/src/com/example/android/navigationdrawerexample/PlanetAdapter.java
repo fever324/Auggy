@@ -60,7 +60,7 @@ public class PlanetAdapter extends ArrayAdapter {
 		holder.name.setText(p.getName());
 		holder.desc.setText(" " + p.getDesc());
 		holder.image.setImageResource(p.getIdImg());
-		//holder.icon.setImageResource(p.getTag());
+		holder.icon.setImageResource(p.getTag());
 		holder.price.setText(String.valueOf(p.getPrice()));
 		Log.w("Debug", "Passed getView");
 		// tv.setText(p.getName());

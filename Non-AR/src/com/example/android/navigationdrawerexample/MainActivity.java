@@ -103,7 +103,7 @@ public class MainActivity extends Activity {
 	private CharSequence mTitle;
 	private String[] mPlanetTitles;
 
-	ResMenu menu = new ResMenu(1);
+	ResMenu menu = new ResMenu();
 	ArrayList displayedArray = menu.foodCategory[0];
 	PlanetAdapter aAdpt;
 	public static Cart cart;
