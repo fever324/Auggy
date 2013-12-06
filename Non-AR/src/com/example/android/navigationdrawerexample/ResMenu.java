@@ -12,7 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class ResMenu {
-	public static HashMap<String,ArrayList<Integer>> foodCategory = new HashMap();
+	private static HashMap<String,ArrayList<Integer>> foodCategory = new HashMap();
 	public static HashMap<Integer,Food> allFood = new HashMap(); 
 	
 	public ResMenu() {
@@ -31,8 +31,17 @@ public class ResMenu {
 //		foodCategory[2] = new ArrayList(Arrays.asList(3));
 //
 	}
+	
+	public static ArrayList<Integer> getCategory(String cat){
+		return foodCategory.get(cat);
+	}
+	
 	public static void addFood(Food food){
 		allFood.put(food.getId(),food);
+	}
+	
+	public static Food getFood(int id){
+		return allFood.get(id);
 	}
 	
 	public static void sortCategory(JSONArray json){
@@ -61,5 +70,8 @@ public class ResMenu {
 	public static void clear(){
 		foodCategory.clear();
 		allFood.clear();
+	}
+	public static String [] getCategories(){
+		return foodCategory.keySet().toArray(new String[0]);
 	}
 }

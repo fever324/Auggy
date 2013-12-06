@@ -22,7 +22,7 @@ import java.util.Locale;
 
 import com.example.android.navigationdrawerexample.MainActivity;
 import com.example.android.navigationdrawerexample.Planet;
-import com.example.android.navigationdrawerexample.PlanetAdapter;
+import com.example.android.navigationdrawerexample.FoodAdapter;
 import com.example.android.navigationdrawerexample.ResMenu;
 import com.example.android.navigationdrawerexample.R;
 
@@ -106,7 +106,7 @@ public class MainActivity extends Activity {
 	ResMenu menu = new ResMenu();
 	//ArrayList displayedArray = menu.foodCategory[0];
 	ArrayList displayedArray = new ArrayList();
-	PlanetAdapter aAdpt;
+	FoodAdapter aAdpt;
 	public static Cart cart;
 	
 	ListView lv;
@@ -174,7 +174,7 @@ public class MainActivity extends Activity {
 		// must match
 
 		lv = (ListView) findViewById(R.id.listview);
-		aAdpt = new PlanetAdapter(displayedArray, this);
+		aAdpt = new FoodAdapter(displayedArray, this);
 		lv.setAdapter(aAdpt);
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -199,7 +199,8 @@ public class MainActivity extends Activity {
 				itemImage.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						Food p = (Food) menu.allFood.get((Integer)displayedArray.get(positionTemp));
+						Food p = null;
+						//(Food) menu.allFood.get((Integer)displayedArray.get(positionTemp));
 						if(!nutritionVisible)itemImage.setImageResource(R.drawable.nutrition);
 						else itemImage.setImageResource(p.getIdImg());
 						nutritionVisible = !nutritionVisible;
@@ -210,7 +211,8 @@ public class MainActivity extends Activity {
 						.findViewById(R.id.ItemCardName);
 			
 
-				final Food p = (Food) menu.allFood.get((Integer)displayedArray.get(position));
+				final Food p = null;
+				//(Food) menu.allFood.get((Integer)displayedArray.get(position));
 
 				itemImage.setImageResource(p.getIdImg());
 				itemName.setText(p.getName());
@@ -232,6 +234,8 @@ public class MainActivity extends Activity {
 
 		registerForContextMenu(lv);
 	}
+	
+	
 
 //	@Override
 //	public void onCreateContextMenu(ContextMenu menu, View v,
@@ -398,7 +402,7 @@ public class MainActivity extends Activity {
 	/**
 	 * Fragment that appears in the "content_frame", shows a planet
 	 */
-	public static class PlanetFragment extends Fragment {
+	/*public static class PlanetFragment extends Fragment {
 		public static final String ARG_PLANET_NUMBER = "planet_number";
 
 		public PlanetFragment() {
@@ -422,5 +426,5 @@ public class MainActivity extends Activity {
 			getActivity().setTitle(planet);
 			return rootView;
 		}
-	}
+	}*/
 }
