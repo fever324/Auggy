@@ -4,7 +4,7 @@ public class Food {
 	private int id;
 	private String name;
 	private String desc;
-	// public String imgURL;
+	public String imgURL;
 	private int idImg;
 	private int category;
 	private double price;
@@ -15,6 +15,18 @@ public class Food {
 		this.name = name;
 		this.desc = desc;
 		this.idImg = idImg;
+		this.category = category;
+		this.price = price;
+		
+		if(name.toLowerCase().contains("chicken")){
+			this.tag = R.drawable.chicken;
+		}
+	}
+	public Food(int id ,String name, String desc, String imgURL, int category, double price) {
+		this.id = id;
+		this.name = name;
+		this.desc = desc;
+		this.imgURL = imgURL;
 		this.category = category;
 		this.price = price;
 		

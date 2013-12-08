@@ -288,8 +288,11 @@ public class TestPHP extends Activity {
 				String desc = jsonChildNode.optString("description");
 				Double price = Double.parseDouble(jsonChildNode
 						.optString("price"));
-				Food food = new Food(id, name, desc, R.drawable.crabmeat_pasta,
-						0, price);
+				//
+				//Food food = new Food(id, name, desc, R.drawable.crabmeat_pasta,0, price);
+				
+				Food food = new Food(id, name, desc, "http://static2.businessinsider.com/image/51f03f966bb3f73c7700000b/19-fast-food-hacks-that-will-change-the-way-you-order.jpg",0, price);
+				
 				ResMenu.addFood(food);
 			}
 			ResMenu.sortCategory(jsonResponse.optJSONArray("category"));

@@ -1,9 +1,14 @@
 package com.example.android.navigationdrawerexample;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import ImageHelper.ImageLoader;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,10 +58,24 @@ public class FoodAdapter extends ArrayAdapter {
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		// Now we can fill the layout with the right values
 		Food p = (Food) ResMenu.getFood((Integer) planetList.get(position));
+		Object[] imageGetterInput = new Object[2];
+		imageGetterInput[0] = p.imgURL;
+		imageGetterInput[1] = holder.image;
 		
 		holder.name.setText(p.getName());
 		holder.desc.setText(" " + p.getDesc());
-		holder.image.setImageResource(p.getIdImg());
+		
+		
+		ImageLoader imgLoader = new ImageLoader(this.context); 
+	        // whenever you want to load an image from url
+	        // call DisplayImage function
+	        // url    -    image url to load
+	        // loader -    loader image, will be displayed before getting image
+	        // image  -    ImageView 
+	    imgLoader.DisplayImage(p.imgURL, R.drawable.ajax_loader, holder.image);
+		
+		//profile_photo.setImageBitmap(mIcon_val);
+		//holder.image.setImageResource(p.getIdImg());
 		holder.icon.setImageResource(p.getTag());
 		holder.price.setText(String.valueOf(p.getPrice()));
 		// tv.setText(p.getName());
