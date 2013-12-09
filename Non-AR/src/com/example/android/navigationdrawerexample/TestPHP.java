@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ImageHelper.ImageLoader;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -70,11 +71,15 @@ public class TestPHP extends Activity {
 
 	boolean nutritionVisible = false;
 
+	ImageLoader imageLoader;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_test_php);
 
+		imageLoader = new ImageLoader(getApplicationContext());
+		
 		listView = (ListView) findViewById(R.id.testPHP_listView);
 		new LoadFood().execute();
 
@@ -148,14 +153,15 @@ public class TestPHP extends Activity {
 
 				TextView itemName = (TextView) layout
 						.findViewById(R.id.ItemCardName);
-				itemImage.setImageResource(p.getIdImg());
+				//itemImage.setImageResource(p.getIdImg());
+				imageLoader.DisplayImage(p.imgURL, R.drawable.ajax_loader, itemImage);
 				itemName.setText(p.getName());
 				
 				itemImage.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						if(!nutritionVisible)itemImage.setImageResource(R.drawable.nutrition);
-						else itemImage.setImageResource(p.getIdImg());
+						else imageLoader.DisplayImage(p.imgURL, R.drawable.ajax_loader, itemImage);
 						nutritionVisible = !nutritionVisible;
 					}
 				});
@@ -254,7 +260,8 @@ public class TestPHP extends Activity {
 		protected String doInBackground(String... params) {
 			JsonReadTask task = new JsonReadTask();
 			List<NameValuePair> restaurantID = new ArrayList<NameValuePair>();
-			restaurantID.add(new BasicNameValuePair("id", "1"));
+			//Pass in Restaurant ID
+			restaurantID.add(new BasicNameValuePair("id", "2"));
 			// passes values for the urls string array
 			jsonResult = task.makeRequest(url, restaurantID);
 			return null;
@@ -288,10 +295,11 @@ public class TestPHP extends Activity {
 				String desc = jsonChildNode.optString("description");
 				Double price = Double.parseDouble(jsonChildNode
 						.optString("price"));
+				String imageURL = jsonChildNode.optString("photoURL");
 				//
 				//Food food = new Food(id, name, desc, R.drawable.crabmeat_pasta,0, price);
 				
-				Food food = new Food(id, name, desc, "http://static2.businessinsider.com/image/51f03f966bb3f73c7700000b/19-fast-food-hacks-that-will-change-the-way-you-order.jpg",0, price);
+				Food food = new Food(id, name, desc, imageURL,0, price);
 				
 				ResMenu.addFood(food);
 			}

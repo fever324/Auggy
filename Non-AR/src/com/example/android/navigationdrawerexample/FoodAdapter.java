@@ -60,10 +60,10 @@ public class FoodAdapter extends ArrayAdapter {
 		Food p = (Food) ResMenu.getFood((Integer) planetList.get(position));
 		Object[] imageGetterInput = new Object[2];
 		imageGetterInput[0] = p.imgURL;
-		imageGetterInput[1] = holder.image;
+		imageGetterInput[1] = holder.image;	
 		
 		holder.name.setText(p.getName());
-		holder.desc.setText(" " + p.getDesc());
+		holder.desc.setText(" " + p.getDesc().substring(0, 40)+"...");
 		
 		
 		ImageLoader imgLoader = new ImageLoader(this.context); 
@@ -77,7 +77,7 @@ public class FoodAdapter extends ArrayAdapter {
 		//profile_photo.setImageBitmap(mIcon_val);
 		//holder.image.setImageResource(p.getIdImg());
 		holder.icon.setImageResource(p.getTag());
-		holder.price.setText(String.valueOf(p.getPrice()));
+		holder.price.setText(String .format("$%.2f", p.getPrice()));
 		// tv.setText(p.getName());
 		// distView.setText(" "+p.getDistance());
 		
