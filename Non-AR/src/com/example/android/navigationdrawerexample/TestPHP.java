@@ -132,6 +132,9 @@ public class TestPHP extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parentAdapter, View view,
 					int position, long id) {
+				//Handles click on headers
+				if(adapter.getList().get(position) < 0) return;
+				
 				LayoutInflater inflater = (LayoutInflater) TestPHP.this
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				View layout = inflater.inflate(R.layout.itemcard, null, false);
@@ -222,15 +225,17 @@ public class TestPHP extends Activity {
 
 	private void selectItem(int position, long id) {
 
-		Log.w("Debug", "Drawer Menu Selection: " + position);
 		// displayedArray.clear();
 		// aAdpt.updateList(menu.foodCategory[position]);
 		// displayedArray = menu.foodCategory[position];
+		if(position == 0){
+			adapter.updateList(ResMenu.getAllFood());
+		} else {
+			adapter.updateList(ResMenu.getCategory((mFoodCategories[position])));
+		}
 		mDrawerLayout.closeDrawer(mDrawerList);
-		adapter.updateList(ResMenu.getCategory((mFoodCategories[position])));
 		adapter.notifyDataSetChanged();
 		// lv.invalidateViews();
-		Log.w("Debug", "Pass datasetchanged()");
 	}
 	
 	@Override
@@ -269,9 +274,9 @@ public class TestPHP extends Activity {
 
 		@Override
 		protected void onPostExecute(String result) {
+			//populate list
 			ListDrawer();
 			updateDrawerAdapter();
-			Log.w("Debug",mFoodCategories[0]);
 		}
 
 	}
@@ -282,7 +287,7 @@ public class TestPHP extends Activity {
 	// method will also update
 	// the list view in the activity.
 	public void ListDrawer() {
-
+		ResMenu.clear();
 		Log.w("fevea", jsonResult);
 		try {
 			JSONObject jsonResponse = new JSONObject(jsonResult);
@@ -311,7 +316,7 @@ public class TestPHP extends Activity {
 					Toast.LENGTH_SHORT).show();
 		}
 
-		adapter = new FoodAdapter(ResMenu.getCategory("Entree"), this);
+		adapter = new FoodAdapter(ResMenu.getCategory("Starters"), this);
 		listView.setAdapter(adapter);
 
 		// SimpleAdapter simpleAdapter = new SimpleAdapter(this, foodList,

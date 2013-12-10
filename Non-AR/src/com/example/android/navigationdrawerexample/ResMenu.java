@@ -3,6 +3,7 @@ package com.example.android.navigationdrawerexample;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,25 +15,29 @@ import android.widget.Toast;
 public class ResMenu {
 	private static HashMap<String,ArrayList<Integer>> foodCategory = new HashMap();
 	public static HashMap<Integer,Food> allFood = new HashMap(); 
+	private static ArrayList<Integer>allFoodCatList = new ArrayList<Integer>(); 
 	
 	public ResMenu() {
 		//Add all food
 		allFood = new HashMap();
-		//foodCategory = new ArrayList();
-//		allFood.add(new Food("Fried Chicken","Good fried chicken", R.drawable.fried_chicken, 0, 5.99));
-//		allFood.add(new Food("Chicken Nuggets","Really good nuggets", R.drawable.chicken_nuggets, 0, 3.99));
-//		allFood.add(new Food("Pasta","Tomato crab meat pasta", R.drawable.crabmeat_pasta, 0, 10.99));
-//		allFood.add(new Food("Sprite","Soda drink", R.drawable.sprite, 0, 2.99));
-//		
-//		//Add category Arraylist
-//		foodCategory = new ArrayList[3];
-//		foodCategory[0] = new ArrayList(Arrays.asList(0,1,2));
-//		foodCategory[1] = new ArrayList(Arrays.asList(2,1));
-//		foodCategory[2] = new ArrayList(Arrays.asList(3));
-//
+	}
+	
+	public static ArrayList<Integer> getAllFood(){
+		if(allFoodCatList.size() == 0){
+			int a = 1;
+			for(String key : foodCategory.keySet()){
+				allFoodCatList.add(-a); 	//Indicate beginning of a category
+				allFoodCatList.addAll(foodCategory.get(key));
+				a++;
+			}
+		}
+		return allFoodCatList;
 	}
 	
 	public static ArrayList<Integer> getCategory(String cat){
+		if(cat == "All Food"){
+			return getAllFood();
+		}
 		return foodCategory.get(cat);
 	}
 	
@@ -70,8 +75,13 @@ public class ResMenu {
 	public static void clear(){
 		foodCategory.clear();
 		allFood.clear();
+		allFoodCatList.clear();
+		
 	}
 	public static String [] getCategories(){
-		return foodCategory.keySet().toArray(new String[0]);
+		List<String> tempList = new ArrayList<String>();
+		tempList.add("All Food");
+		tempList.addAll(foodCategory.keySet());
+		return tempList.toArray(new String[0]);
 	}
 }
