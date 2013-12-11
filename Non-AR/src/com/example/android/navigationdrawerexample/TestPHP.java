@@ -293,6 +293,7 @@ public class TestPHP extends Activity {
 			JSONObject jsonResponse = new JSONObject(jsonResult);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("foods");
 
+			//populate allFood
 			for (int i = 0; i < jsonMainNode.length(); i++) {
 				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
 				int id = jsonChildNode.optInt("id");
@@ -308,7 +309,14 @@ public class TestPHP extends Activity {
 				
 				ResMenu.addFood(food);
 			}
+			
+			//populate categories
 			ResMenu.sortCategory(jsonResponse.optJSONArray("category"));
+			
+			//populate food tags
+			if(jsonResponse.optJSONArray("tags") != null){
+				ResMenu.sortTags(jsonResponse.optJSONArray("tags"));
+			}
 		} catch (JSONException e) {
 
 			Log.w("Error", e.toString());
@@ -316,7 +324,7 @@ public class TestPHP extends Activity {
 					Toast.LENGTH_SHORT).show();
 		}
 
-		adapter = new FoodAdapter(ResMenu.getCategory("Starters"), this);
+		adapter = new FoodAdapter(ResMenu.getCategory("All Food"), this);
 		listView.setAdapter(adapter);
 
 		// SimpleAdapter simpleAdapter = new SimpleAdapter(this, foodList,

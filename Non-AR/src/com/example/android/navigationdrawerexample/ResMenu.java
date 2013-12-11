@@ -72,6 +72,22 @@ public class ResMenu {
 		}
 	}
 	
+	public static void sortTags(JSONArray json){
+		try{
+
+			for (int i = 0; i < json.length(); i++) {
+				JSONObject jsonChildNode = json.getJSONObject(i);
+				int food_id = Integer.parseInt(jsonChildNode.optString("food_id"));
+				String tag = jsonChildNode.optString("icon");
+				allFood.get(food_id).addTag(tag);
+			}
+			
+		}catch (JSONException e) {
+
+			Log.w("Error", e.toString());
+		}
+	}
+	
 	public static void clear(){
 		foodCategory.clear();
 		allFood.clear();

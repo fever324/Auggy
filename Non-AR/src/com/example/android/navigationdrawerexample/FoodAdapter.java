@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ImageHelper.ImageLoader;
+import ResourceHelper.IconHelper;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,7 +32,7 @@ public class FoodAdapter extends ArrayAdapter {
 		public TextView desc;
 		public TextView price;
 		public ImageView image;
-		public ImageView icon;
+		public ImageView [] icons;
 		public Animation animation;
 	}
 	
@@ -81,21 +82,25 @@ public class FoodAdapter extends ArrayAdapter {
 				viewHolder.desc = (TextView) rowView.findViewById(R.id.desc);
 				viewHolder.image = (ImageView) rowView.findViewById(R.id.img);
 				viewHolder.price = (TextView) rowView.findViewById(R.id.price);
-				viewHolder.icon = (ImageView) rowView.findViewById(R.id.icon);
-
+				viewHolder.icons = new ImageView[]{(ImageView) rowView.findViewById(R.id.icon1),
+													(ImageView) rowView.findViewById(R.id.icon2),
+													(ImageView) rowView.findViewById(R.id.icon3),
+													(ImageView) rowView.findViewById(R.id.icon4)};
 				rowView.setTag(viewHolder);
 			}
 			ViewHolder holder = (ViewHolder) rowView.getTag();
 			// Now we can fill the layout with the right values
 			Food p = (Food) ResMenu.getFood(foodIndex);
-			Object[] imageGetterInput = new Object[2];
-			imageGetterInput[0] = p.imgURL;
-			imageGetterInput[1] = holder.image;	
 			
+			//name & description
 			holder.name.setText(p.getName());
 			holder.desc.setText(" " + p.getDesc().substring(0, 40)+"...");
 			
 			
+			//food image
+			Object[] imageLoaderInput = new Object[2];
+			imageLoaderInput[0] = p.imgURL;
+			imageLoaderInput[1] = holder.image;	
 			ImageLoader imgLoader = new ImageLoader(this.context); 
 		        // whenever you want to load an image from url
 		        // call DisplayImage function
@@ -103,12 +108,25 @@ public class FoodAdapter extends ArrayAdapter {
 		        // loader -    loader image, will be displayed before getting image
 		        // image  -    ImageView 
 		    imgLoader.DisplayImage(p.imgURL, R.drawable.ajax_loader, holder.image);
+		    
+		    //fade in animation
 		    holder.animation = AnimationUtils.loadAnimation(this.context,R.anim.fadein);
 	        holder.image.startAnimation(holder.animation);
 		    
-			//profile_photo.setImageBitmap(mIcon_val);
-			//holder.image.setImageResource(p.getIdImg());
-			holder.icon.setImageResource(p.getTag());
+			//tags
+	        String [] tag = p.getAllTags();
+	        //clear previous cache
+	        for(int i = 0; i<4; i++){
+	        	holder.icons[i].setImageResource(android.R.color.transparent);
+	        }
+	        
+	        if(tag.length != 0){
+		        for(int i = 0; i < 4 && (i<tag.length); i++){
+		        	holder.icons[i].setImageResource(IconHelper.getIcon(tag[i]));
+		        }
+	        }
+			
+			//price
 			holder.price.setText(String .format("$%.2f", p.getPrice()));
 			// tv.setText(p.getName());
 			// distView.setText(" "+p.getDistance());
