@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ImageHelper.ImageLoader;
+import ResourceHelper.IconHelper;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -40,10 +41,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
@@ -68,6 +71,8 @@ public class TestPHP extends Activity {
 	private String url = "http://ec2-54-202-51-8.us-west-2.compute.amazonaws.com/Auggy/scripts/phpScripts/newRestItems.php";
 	private ListView listView;
 	private FoodAdapter adapter;
+	
+	private LinearLayout tagFilter;
 
 	boolean nutritionVisible = false;
 
@@ -79,7 +84,6 @@ public class TestPHP extends Activity {
 		setContentView(R.layout.activity_test_php);
 
 		imageLoader = new ImageLoader(getApplicationContext());
-		
 		listView = (ListView) findViewById(R.id.testPHP_listView);
 		new LoadFood().execute();
 
@@ -176,8 +180,29 @@ public class TestPHP extends Activity {
 		});
 
 		registerForContextMenu(listView);
-	
+		initializeFilter();
 
+	}
+	
+	public void initializeFilter() {
+		tagFilter = (LinearLayout) findViewById(R.id.tagfilter);
+		
+		for(int icon : IconHelper.getAllIcons()){
+			tagFilter.addView(imageView(icon));
+		}
+	}
+	
+	public View imageView(int resID) {
+	     LinearLayout layout = new LinearLayout(getApplicationContext());
+	     layout.setLayoutParams(new LayoutParams(250, 250));
+	     layout.setGravity(Gravity.CENTER);
+	     
+	     ImageView imageView = new ImageView(getApplicationContext());
+	     imageView.setLayoutParams(new LayoutParams(220, 220));
+	     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+	     imageView.setImageResource(resID);
+	     layout.addView(imageView);
+	     return layout;
 	}
 
 	public void updateDrawerAdapter() {

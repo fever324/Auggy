@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 public class ResMenu {
 	private static HashMap<String,ArrayList<Integer>> foodCategory = new HashMap();
+	private static HashMap<String,ArrayList<Integer>> foodTags = new HashMap();
 	public static HashMap<Integer,Food> allFood = new HashMap(); 
 	private static ArrayList<Integer>allFoodCatList = new ArrayList<Integer>(); 
 	
@@ -56,13 +57,13 @@ public class ResMenu {
 			for (int i = 0; i < json.length(); i++) {
 				JSONObject jsonChildNode = json.getJSONObject(i);
 
-				String food_id = jsonChildNode.optString("food_id");
+				int food_id = Integer.parseInt(jsonChildNode.optString("food_id"));
 				String category = jsonChildNode.optString("name");
 				if(foodCategory.containsKey(category)){
-					foodCategory.get(category).add(Integer.parseInt(food_id));
+					foodCategory.get(category).add(food_id);
 				} else{
 					ArrayList<Integer> tempCategoryList = new ArrayList();
-					tempCategoryList.add(Integer.parseInt(food_id));
+					tempCategoryList.add(food_id);
 					foodCategory.put(category, tempCategoryList);
 				}
 			}
@@ -80,6 +81,15 @@ public class ResMenu {
 				int food_id = Integer.parseInt(jsonChildNode.optString("food_id"));
 				String tag = jsonChildNode.optString("icon");
 				allFood.get(food_id).addTag(tag);
+				
+				if(foodTags.containsKey(tag)){
+					foodCategory.get(tag).add(food_id);
+				} else{
+					ArrayList<Integer> tempCategoryList = new ArrayList();
+					tempCategoryList.add(food_id);
+					foodCategory.put(tag, tempCategoryList);
+				}
+				
 			}
 			
 		}catch (JSONException e) {

@@ -1,17 +1,25 @@
 package ResourceHelper;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import com.example.android.navigationdrawerexample.R;
 
 public class IconHelper {
-	public static HashMap<String,Integer> icons = new HashMap<String,Integer>();
+	private static HashMap<String,Integer> icons = new HashMap<String,Integer>();
 	
 	public static int getIcon(String icon){
 		if(icons.size() == 0){
 			init();
 		}
 		return icons.get(icon);
+	}
+	
+	public static Collection<Integer> getAllIcons(){
+		if(icons.size() == 0){
+			init();
+		}
+		return icons.values();
 	}
 	
 	private static void init(){
