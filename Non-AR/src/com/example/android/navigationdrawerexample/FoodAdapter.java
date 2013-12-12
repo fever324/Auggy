@@ -52,7 +52,11 @@ public class FoodAdapter extends ArrayAdapter {
 		View rowView = convertView;
 		View headerView = convertView;
 		
+
 		int foodIndex = (Integer) planetList.get(position);
+		
+
+		
 		if(foodIndex <= 0){
 			foodIndex = -foodIndex;
 			if (headerView == null || rowView.getTag() instanceof ViewHolder) {
@@ -66,11 +70,30 @@ public class FoodAdapter extends ArrayAdapter {
 			}
 			HeaderViewHolder headerHolder = (HeaderViewHolder) headerView.getTag();
 			String category = ResMenu.getCategories()[foodIndex];
+			if(headerHolder == null){
+				LayoutInflater inflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				// convertView = inflater.inflate(R.layout.row_layout,parent,false);
+				headerView = inflater.inflate(R.layout.image_rowheaderlayout, null);
+				HeaderViewHolder headerViewHolder = new HeaderViewHolder();
+				headerViewHolder.header = (TextView)headerView.findViewById(R.id.categoryHeader);
+				headerView.setTag(headerViewHolder);
+			}
 			headerHolder.header.setText(category);
 			
 			return headerView;
 			
 		} else {
+			//return empty view if food not found
+			if(ResMenu.getFood(foodIndex) == null){
+
+				Log.w("fevea","yoyoyo1");
+				return new View(this.context);
+				
+			}
+			Log.w("fevea","yoyoyo2");
+			
+			
 			// First let's verify the convertView is not null
 			if (rowView == null || rowView.getTag() instanceof HeaderViewHolder) {
 				LayoutInflater inflater = (LayoutInflater) context
@@ -90,8 +113,25 @@ public class FoodAdapter extends ArrayAdapter {
 			}
 			ViewHolder holder = (ViewHolder) rowView.getTag();
 			// Now we can fill the layout with the right values
-			Food p = (Food) ResMenu.getFood(foodIndex);
 			
+			
+			Food p = (Food) ResMenu.getFood(foodIndex);
+			if(holder == null){
+				LayoutInflater inflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				// convertView = inflater.inflate(R.layout.row_layout,parent,false);
+				rowView = inflater.inflate(R.layout.image_rowlayout, null);
+				ViewHolder viewHolder = new ViewHolder();
+				viewHolder.name = (TextView) rowView.findViewById(R.id.name);
+				viewHolder.desc = (TextView) rowView.findViewById(R.id.desc);
+				viewHolder.image = (ImageView) rowView.findViewById(R.id.img);
+				viewHolder.price = (TextView) rowView.findViewById(R.id.price);
+				viewHolder.icons = new ImageView[]{(ImageView) rowView.findViewById(R.id.icon1),
+													(ImageView) rowView.findViewById(R.id.icon2),
+													(ImageView) rowView.findViewById(R.id.icon3),
+													(ImageView) rowView.findViewById(R.id.icon4)};
+				//rowView.setTag(viewHolder);
+			}
 			//name & description
 			holder.name.setText(p.getName());
 			holder.desc.setText(" " + p.getDesc().substring(0, 40)+"...");
@@ -138,6 +178,7 @@ public class FoodAdapter extends ArrayAdapter {
 
 	public void updateList(ArrayList newList) {
 		this.planetList = newList;
+		//this.notifyDataSetChanged();
 	}
 
 	public ArrayList<Integer> getList(){

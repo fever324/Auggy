@@ -15,11 +15,18 @@ public class IconHelper {
 		return icons.get(icon);
 	}
 	
-	public static Collection<Integer> getAllIcons(){
+	public static Collection<Integer> getAllIconIDs(){
 		if(icons.size() == 0){
 			init();
 		}
 		return icons.values();
+	}
+	
+	public static Collection<String> getAllIcons(){
+		if(icons.size() == 0){
+			init();
+		}
+		return icons.keySet();
 	}
 	
 	private static void init(){

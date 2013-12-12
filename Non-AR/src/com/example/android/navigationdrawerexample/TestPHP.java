@@ -42,6 +42,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -71,10 +73,14 @@ public class TestPHP extends Activity {
 	private String url = "http://ec2-54-202-51-8.us-west-2.compute.amazonaws.com/Auggy/scripts/phpScripts/newRestItems.php";
 	private ListView listView;
 	private FoodAdapter adapter;
-	
-	private LinearLayout tagFilter;
+
+
+	private View horizontalFilterView;
+	private LinearLayout tagFilter; // tag flag indicator
+	private HashMap<String, Boolean> tagFlag;
 
 	boolean nutritionVisible = false;
+	boolean filterVisible = false;
 
 	ImageLoader imageLoader;
 
@@ -89,7 +95,7 @@ public class TestPHP extends Activity {
 
 		mTitle = mDrawerTitle = getTitle();
 		mFoodCategories = ResMenu.getCategories();
-		
+
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.testPHPdrawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -98,7 +104,7 @@ public class TestPHP extends Activity {
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 				GravityCompat.START);
 		// set up the drawer's list view with items and click listener
-	    drawerAdapter = new ArrayAdapter<String>(this,
+		drawerAdapter = new ArrayAdapter<String>(this,
 				R.layout.drawer_list_item, mFoodCategories);
 		mDrawerList.setAdapter(drawerAdapter);
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -119,7 +125,7 @@ public class TestPHP extends Activity {
 			public void onDrawerClosed(View view) {
 				getActionBar().setTitle(mTitle);
 				invalidateOptionsMenu(); // creates call to
-										// onPrepareOptionsMenu()
+											// onPrepareOptionsMenu()
 
 			}
 
@@ -127,7 +133,7 @@ public class TestPHP extends Activity {
 			public void onDrawerOpened(View drawerView) {
 				getActionBar().setTitle(mDrawerTitle);
 				invalidateOptionsMenu(); // creates call to
-										// onPrepareOptionsMenu()
+											// onPrepareOptionsMenu()
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -136,45 +142,49 @@ public class TestPHP extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parentAdapter, View view,
 					int position, long id) {
-				//Handles click on headers
-				if(adapter.getList().get(position) < 0) return;
-				
+				// Handles click on headers
+				if (adapter.getList().get(position) < 0)
+					return;
+
 				LayoutInflater inflater = (LayoutInflater) TestPHP.this
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				View layout = inflater.inflate(R.layout.itemcard, null, false);
 				final PopupWindow pw = new PopupWindow(layout, 600, 600, true);
-				
-				//Tapping outside of the popup dismisses the window (next 3 lines)
+
+				// Tapping outside of the popup dismisses the window (next 3
+				// lines)
 				pw.setBackgroundDrawable(new BitmapDrawable());
 				pw.setOutsideTouchable(true);
 				pw.setFocusable(true);
-				
+
 				final ImageView itemImage = (ImageView) layout
 						.findViewById(R.id.ItemCard_Image);
-				final int positionTemp = position; 
+				final int positionTemp = position;
 				nutritionVisible = false;
 				itemImage.setClickable(true);
 
 				int foodID = adapter.getList().get(positionTemp);
-				final Food p =  ResMenu.getFood(foodID);
+				final Food p = ResMenu.getFood(foodID);
 
 				TextView itemName = (TextView) layout
 						.findViewById(R.id.ItemCardName);
-				//itemImage.setImageResource(p.getIdImg());
-				imageLoader.DisplayImage(p.imgURL, R.drawable.ajax_loader, itemImage);
+				// itemImage.setImageResource(p.getIdImg());
+				imageLoader.DisplayImage(p.imgURL, R.drawable.ajax_loader,
+						itemImage);
 				itemName.setText(p.getName());
-				
+
 				itemImage.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						if(!nutritionVisible)itemImage.setImageResource(R.drawable.nutrition);
-						else imageLoader.DisplayImage(p.imgURL, R.drawable.ajax_loader, itemImage);
+						if (!nutritionVisible)
+							itemImage.setImageResource(R.drawable.nutrition);
+						else
+							imageLoader.DisplayImage(p.imgURL,
+									R.drawable.ajax_loader, itemImage);
 						nutritionVisible = !nutritionVisible;
 					}
 				});
-				
-				
-				
+
 				pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
 			}
 		});
@@ -183,34 +193,64 @@ public class TestPHP extends Activity {
 		initializeFilter();
 
 	}
-	
+
 	public void initializeFilter() {
+		horizontalFilterView = findViewById(R.id.horizontalfilterview);
 		tagFilter = (LinearLayout) findViewById(R.id.tagfilter);
 		
-		for(int icon : IconHelper.getAllIcons()){
+		tagFlag = new HashMap<String, Boolean>();
+
+		for (String icon : IconHelper.getAllIcons()) {
 			tagFilter.addView(imageView(icon));
+			tagFlag.put(icon, false);
 		}
+		horizontalFilterView.setVisibility(View.INVISIBLE);
+		
 	}
-	
-	public View imageView(int resID) {
-	     LinearLayout layout = new LinearLayout(getApplicationContext());
-	     layout.setLayoutParams(new LayoutParams(250, 250));
-	     layout.setGravity(Gravity.CENTER);
-	     
-	     ImageView imageView = new ImageView(getApplicationContext());
-	     imageView.setLayoutParams(new LayoutParams(220, 220));
-	     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-	     imageView.setImageResource(resID);
-	     layout.addView(imageView);
-	     return layout;
+
+	private ArrayList<Integer> constructDisplayArray() {
+		return ResMenu.getTag("chicken");
+	}
+
+	public View imageView(final String icon) {
+		LinearLayout layout = new LinearLayout(getApplicationContext());
+		layout.setLayoutParams(new LayoutParams(250, 250));
+		layout.setGravity(Gravity.CENTER);
+
+		ImageView imageView = new ImageView(getApplicationContext());
+		// layout
+		imageView.setLayoutParams(new LayoutParams(220, 220));
+		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+		// click handler
+		imageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// toggle flag
+				Boolean current = tagFlag.get(icon);
+				tagFlag.put(icon, !current);
+				ResMenu.replaceFoodList(constructDisplayArray());
+
+				adapter.notifyDataSetChanged();
+
+				// adapter.updateList(ResMenu.getTag(icon));
+
+			}
+		});
+
+		imageView.setImageResource(IconHelper.getIcon(icon));
+		layout.addView(imageView);
+
+		return layout;
 	}
 
 	public void updateDrawerAdapter() {
 		mFoodCategories = ResMenu.getCategories();
-		drawerAdapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, mFoodCategories);
+		drawerAdapter = new ArrayAdapter<String>(this,
+				R.layout.drawer_list_item, mFoodCategories);
 		mDrawerList.setAdapter(drawerAdapter);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -227,16 +267,16 @@ public class TestPHP extends Activity {
 			selectItem(position, id);
 		}
 	}
-	
+
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// If the nav drawer is open, hide action items related to the content
 		// view
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		//menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+		// menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// The action bar home/up action should open or close the drawer.
@@ -244,25 +284,33 @@ public class TestPHP extends Activity {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-		return super.onOptionsItemSelected(item);
-	}
+		switch (item.getItemId()) {
+        	case R.id.action_search:
+        		filterVisible = !filterVisible;
+        		fadeFilters();
+        		return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+		}
 
+	}
 
 	private void selectItem(int position, long id) {
 
 		// displayedArray.clear();
 		// aAdpt.updateList(menu.foodCategory[position]);
 		// displayedArray = menu.foodCategory[position];
-		if(position == 0){
+		if (position == 0) {
 			adapter.updateList(ResMenu.getAllFood());
 		} else {
 			adapter.updateList(ResMenu.getCategory((mFoodCategories[position])));
 		}
 		mDrawerLayout.closeDrawer(mDrawerList);
 		adapter.notifyDataSetChanged();
+
 		// lv.invalidateViews();
 	}
-	
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -290,7 +338,7 @@ public class TestPHP extends Activity {
 		protected String doInBackground(String... params) {
 			JsonReadTask task = new JsonReadTask();
 			List<NameValuePair> restaurantID = new ArrayList<NameValuePair>();
-			//Pass in Restaurant ID
+			// Pass in Restaurant ID
 			restaurantID.add(new BasicNameValuePair("id", "2"));
 			// passes values for the urls string array
 			jsonResult = task.makeRequest(url, restaurantID);
@@ -299,7 +347,7 @@ public class TestPHP extends Activity {
 
 		@Override
 		protected void onPostExecute(String result) {
-			//populate list
+			// populate list
 			ListDrawer();
 			updateDrawerAdapter();
 		}
@@ -318,7 +366,7 @@ public class TestPHP extends Activity {
 			JSONObject jsonResponse = new JSONObject(jsonResult);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("foods");
 
-			//populate allFood
+			// populate allFood
 			for (int i = 0; i < jsonMainNode.length(); i++) {
 				JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
 				int id = jsonChildNode.optInt("id");
@@ -328,18 +376,19 @@ public class TestPHP extends Activity {
 						.optString("price"));
 				String imageURL = jsonChildNode.optString("photoURL");
 				//
-				//Food food = new Food(id, name, desc, R.drawable.crabmeat_pasta,0, price);
-				
-				Food food = new Food(id, name, desc, imageURL,0, price);
-				
+				// Food food = new Food(id, name, desc,
+				// R.drawable.crabmeat_pasta,0, price);
+
+				Food food = new Food(id, name, desc, imageURL, 0, price);
+
 				ResMenu.addFood(food);
 			}
-			
-			//populate categories
+
+			// populate categories
 			ResMenu.sortCategory(jsonResponse.optJSONArray("category"));
-			
-			//populate food tags
-			if(jsonResponse.optJSONArray("tags") != null){
+
+			// populate food tags
+			if (jsonResponse.optJSONArray("tags") != null) {
 				ResMenu.sortTags(jsonResponse.optJSONArray("tags"));
 			}
 		} catch (JSONException e) {
@@ -361,4 +410,23 @@ public class TestPHP extends Activity {
 	// End of DB connection
 	// ************************************
 
+	// Animations
+	// *********************************
+	private void fadeFilters() {
+		if(filterVisible){
+
+			Animation animation = new TranslateAnimation(0, 0, 300, 0);
+			animation.setDuration(1000);
+			animation.setFillAfter(true);
+			horizontalFilterView.startAnimation(animation);
+			horizontalFilterView.setVisibility(0);
+			return;
+		}
+		Animation animation = new TranslateAnimation(0, 0, 0, 300);
+		animation.setDuration(1000);
+		animation.setFillAfter(true);
+		horizontalFilterView.startAnimation(animation);
+		horizontalFilterView.setVisibility(0);
+	}
+	// *********************************
 }

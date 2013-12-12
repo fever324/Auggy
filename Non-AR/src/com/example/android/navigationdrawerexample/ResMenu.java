@@ -9,18 +9,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.widget.Toast;
 
+
 public class ResMenu {
+
+	public static HashMap<Integer,Food> allFood = new HashMap<Integer, Food>(); 
+	public static HashMap<Integer,Food> allFoodOriginal = new HashMap<Integer, Food>(); 
 	private static HashMap<String,ArrayList<Integer>> foodCategory = new HashMap();
 	private static HashMap<String,ArrayList<Integer>> foodTags = new HashMap();
-	public static HashMap<Integer,Food> allFood = new HashMap(); 
 	private static ArrayList<Integer>allFoodCatList = new ArrayList<Integer>(); 
 	
 	public ResMenu() {
 		//Add all food
-		allFood = new HashMap();
+		allFood = new HashMap<Integer, Food>();
 	}
 	
 	public static ArrayList<Integer> getAllFood(){
@@ -42,13 +46,19 @@ public class ResMenu {
 		return foodCategory.get(cat);
 	}
 	
+	public static ArrayList<Integer> getTag(String tag){
+		return foodTags.get(tag);
+	}
+	
 	public static void addFood(Food food){
 		allFood.put(food.getId(),food);
 	}
 	
 	public static Food getFood(int id){
-		return allFood.get(id);
+		if(allFood.containsKey(id))	return allFood.get(id);
+		return null;
 	}
+	
 	
 	public static void sortCategory(JSONArray json){
 
@@ -83,11 +93,11 @@ public class ResMenu {
 				allFood.get(food_id).addTag(tag);
 				
 				if(foodTags.containsKey(tag)){
-					foodCategory.get(tag).add(food_id);
+					foodTags.get(tag).add(food_id);
 				} else{
 					ArrayList<Integer> tempCategoryList = new ArrayList();
 					tempCategoryList.add(food_id);
-					foodCategory.put(tag, tempCategoryList);
+					foodTags.put(tag, tempCategoryList);
 				}
 				
 			}
@@ -100,10 +110,24 @@ public class ResMenu {
 	
 	public static void clear(){
 		foodCategory.clear();
+		foodTags.clear(); 
 		allFood.clear();
 		allFoodCatList.clear();
-		
 	}
+	
+	public static void replaceFoodList(ArrayList<Integer> IDs){
+		allFoodOriginal = new HashMap<Integer, Food>(allFood);
+		allFood.clear();
+		for(int id : IDs){
+			allFood.put(id, allFoodOriginal.get(id));
+		}
+	}
+	
+	public static void recoverFoodList(){
+		allFood =  new HashMap<Integer, Food>( allFoodOriginal);
+		allFoodOriginal.clear();
+	}
+	
 	public static String [] getCategories(){
 		List<String> tempList = new ArrayList<String>();
 		tempList.add("All Food");
