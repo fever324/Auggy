@@ -79,6 +79,7 @@ public class FoodAdapter extends ArrayAdapter {
 				headerViewHolder.header = (TextView)headerView.findViewById(R.id.categoryHeader);
 				headerView.setTag(headerViewHolder);
 			}
+	        headerHolder = (HeaderViewHolder) headerView.getTag();
 			headerHolder.header.setText(category);
 			
 			return headerView;
@@ -86,12 +87,8 @@ public class FoodAdapter extends ArrayAdapter {
 		} else {
 			//return empty view if food not found
 			if(ResMenu.getFood(foodIndex) == null){
-
-				Log.w("fevea","yoyoyo1");
 				return new View(this.context);
-				
 			}
-			Log.w("fevea","yoyoyo2");
 			
 			
 			// First let's verify the convertView is not null
@@ -130,8 +127,10 @@ public class FoodAdapter extends ArrayAdapter {
 													(ImageView) rowView.findViewById(R.id.icon2),
 													(ImageView) rowView.findViewById(R.id.icon3),
 													(ImageView) rowView.findViewById(R.id.icon4)};
-				//rowView.setTag(viewHolder);
+				rowView.setTag(viewHolder);
 			}
+		    holder = (ViewHolder) rowView.getTag();
+			
 			//name & description
 			holder.name.setText(p.getName());
 			holder.desc.setText(" " + p.getDesc().substring(0, 40)+"...");
