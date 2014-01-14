@@ -124,8 +124,10 @@ public class ResMenu {
 	}
 	
 	public static void recoverFoodList(){
-		allFood =  new HashMap<Integer, Food>( allFoodOriginal);
-		allFoodOriginal.clear();
+		if(allFoodOriginal.size() != 0){
+			allFood =  new HashMap<Integer, Food>( allFoodOriginal);
+			allFoodOriginal.clear();
+		}
 	}
 	
 	public static String [] getCategories(){
