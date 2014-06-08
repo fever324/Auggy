@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -209,26 +208,8 @@ public class TestPHP extends Activity {
 		
 	}
 
-	private ArrayList<Integer> constructDisplayArray(HashMap<String,Boolean> tagFlag) {
-
-		// Filter logic
-		// Using retainAll to keep AND logic between filters.
-		ArrayList<Integer> temp = new ArrayList<Integer>();
-		ResMenu.recoverFoodList();
-		temp = ResMenu.getAllFood();
-		boolean init = true;
-		for(Entry<String,Boolean> entry : tagFlag.entrySet()){
-			if(entry.getValue()){
-				if(init){
-					temp = ResMenu.getTag(entry.getKey());
-					init = false;
-				} else {
-					temp.retainAll(ResMenu.getTag(entry.getKey()));
-					
-				}
-			}
-		}
-		return temp;
+	private ArrayList<Integer> constructDisplayArray() {
+		return ResMenu.getTag("chicken");
 	}
 
 	public View imageView(final String icon) {
@@ -248,9 +229,12 @@ public class TestPHP extends Activity {
 				// toggle flag
 				Boolean current = tagFlag.get(icon);
 				tagFlag.put(icon, !current);
-				ResMenu.replaceFoodList(constructDisplayArray(tagFlag));
+				ResMenu.replaceFoodList(constructDisplayArray());
 
 				adapter.notifyDataSetChanged();
+
+				// adapter.updateList(ResMenu.getTag(icon));
+
 			}
 		});
 
@@ -260,12 +244,6 @@ public class TestPHP extends Activity {
 		return layout;
 	}
 
-	//////FIx this!!
-	public void toggleTagImage(String icon){
-		ImageView tag = (ImageView)tagFilter.getFocusedChild();
-		//if(tagFlag.get(icon))
-		tag.setImageBitmap(ImageHelper.Utils.toGrayscale(tag.getDrawingCache()));
-	}
 	public void updateDrawerAdapter() {
 		mFoodCategories = ResMenu.getCategories();
 		drawerAdapter = new ArrayAdapter<String>(this,
@@ -383,6 +361,7 @@ public class TestPHP extends Activity {
 	// the list view in the activity.
 	public void ListDrawer() {
 		ResMenu.clear();
+		Log.w("fevea", jsonResult);
 		try {
 			JSONObject jsonResponse = new JSONObject(jsonResult);
 			JSONArray jsonMainNode = jsonResponse.optJSONArray("foods");
