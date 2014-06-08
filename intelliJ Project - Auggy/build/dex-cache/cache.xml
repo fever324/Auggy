@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="C:\Users\meedo_000\AndroidStudioProjects\Auggy\app\build\pre-dexed\debug\bolts-7fe61b8de4c9d88ad68f3d8ba48289244798e1a6.jar"
+        jar="C:\Users\meedo_000\AndroidStudioProjects\Auggy\build\exploded-aar\Auggy\facebook\unspecified\libs\bolts.jar"
+        jumboMode="false"
+        revision="19.0.1"
+        sha1="1e5ba33c837d05dcca9dc40a0ab458f8599d7aef"/>
+    <item
+        dex="C:\Users\meedo_000\AndroidStudioProjects\Auggy\app\build\pre-dexed\debug\classes-59acffb23db51dd645963daa64f3eca513fb5ee3.jar"
+        jar="C:\Users\meedo_000\AndroidStudioProjects\Auggy\build\exploded-aar\com.android.support\appcompat-v7\19.1.0\classes.jar"
+        jumboMode="false"
+        revision="19.0.1"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+    <item
+        dex="C:\Users\meedo_000\AndroidStudioProjects\Auggy\app\build\pre-dexed\debug\classes-67824ba14b523af0308bd88e239885e7b6bc0929.jar"
+        jar="C:\Users\meedo_000\AndroidStudioProjects\Auggy\build\exploded-aar\Auggy\facebook\unspecified\classes.jar"
+        jumboMode="false"
+        revision="19.0.1"
+        sha1="1b2c45be20d1480e075716cf9b34648a26797cff"/>
+    <item
+        dex="C:\Users\meedo_000\AndroidStudioProjects\Auggy\app\build\pre-dexed\debug\classes-80f92469b1ddfc1b3f801ae581237b315cde0d97.jar"
+        jar="C:\Users\meedo_000\AndroidStudioProjects\Auggy\build\exploded-aar\com.android.support\gridlayout-v7\19.1.0\classes.jar"
+        jumboMode="false"
+        revision="19.0.1"
+        sha1="af4cc326e6cd92f88db12298767e521743aedd36"/>
+    <item
+        dex="C:\Users\meedo_000\AndroidStudioProjects\Auggy\app\build\pre-dexed\debug\support-v4-19.1.0-c30e376a8a37b42530721aa3276156097e39d8df.jar"
+        jar="C:\Program Files (x86)\Android\android-sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="19.0.1"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+
+</pre-dex-items>
